@@ -11,10 +11,19 @@ def twoSum(nums, target):
                   seen[numb] = index # or add the value to the hashmap
                   
                   
-                  
-                
-
-
 num = [3,2,4]
 target = 6
 print(twoSum(num,target))
+
+# slight change
+def twoSum2(nums, target):
+    seen = {}
+    for i in range(len(nums)):
+        complement = target - nums[i]
+        if complement in seen:
+            return seen[complement], i
+        seen[nums[i]] = i 
+
+num = [3,2,4]
+target = 6
+print(twoSum2(num,target))
