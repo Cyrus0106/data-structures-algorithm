@@ -1,0 +1,55 @@
+def findMedianSortedArrays(nums1, nums2):
+    """
+    :type nums1: List[int]
+    :type nums2: List[int]
+    :rtype: float
+    """
+    combined = nums1 + nums2
+    combined.sort()
+    mid = len(combined) // 2
+    if len(combined) % 2 == 0:
+        return (combined[mid - 1] + combined[mid]) / 2.0
+    else:
+        return combined[mid]
+
+
+nums1, nums2 = [1, 3], [2]
+print(findMedianSortedArrays(nums1, nums2))
+
+
+nums1, nums2 = [1, 2], [3, 4]
+print(findMedianSortedArrays(nums1, nums2))
+
+
+# O(log(min(m,n))) solution
+def findMedianSortedArrays2(nums1, nums2):
+    """
+    :type nums1: List[int]
+    :type nums2: List[int]
+    :rtype: float
+    """
+    A, B = nums1, nums2
+    total = len(nums1) + len(nums2)
+    half = total // 2
+
+    if len(B) < len(A):
+        A, B = B, A
+
+    l, r = 0, len(A) - 1
+    while True:
+        i = (l + r) // 2
+        j = half - i - 2
+
+        Aleft = A[i] if i >= 0 else float("-infinity")
+        Aright = A[i + 1] if (i + 1) < len(A) else float("infinity")
+        Bleft = B[j] if j >= 0 else float("-infinity")
+        Bright = B[j + 1] if (j + 1) < len(B) else float("infinity")
+
+        if Aleft <= Bright and Bleft <= Aright:
+            if total % 2:
+                return min(Aright, Bright)
+            return (max(Aleft, Bleft) + min(Aright, Bright)) / 2.0
+        elif Aleft > Bright:
+            r = i - 1
+        else:
+            l = i + 1
